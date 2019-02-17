@@ -3,6 +3,8 @@ apiVersion: skaffold/v1beta5
 kind: Config
 build:
   artifacts:
+  - image: helloworldservice
+    context: src/helloworldservice
   - image: frontend
     context: src/frontend
   tagPolicy:

@@ -2,34 +2,27 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: frontend
+  name: helloworldservice
 spec:
   template:
     metadata:
       labels:
-        app: frontend
+        app: helloworldservice
     spec:
+      terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: frontend
+          image: helloworldservice
           ports:
-          - containerPort: 8080
+          - containerPort: 3550
           readinessProbe:
-            initialDelaySeconds: 10
-            httpGet:
-              path: "/_healthz"
-              port: 8080
-              httpHeaders:
-              - name: Cookie
-                value: "session-id=x-readiness-probe"
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
           livenessProbe:
-            initialDelaySeconds: 10
-            httpGet:
-              path: "/_healthz"
-              port: 8080
-              httpHeaders:
-                - name: Cookie
-                  value: "session-id=x-liveness-probe"
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
           resources:
             requests:
               cpu: 100m
@@ -41,25 +34,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: helloworldservice
 spec:
   type: ClusterIP
   selector:
-    app: frontend
+    app: helloworldservice
   ports:
-  - name: http
-    port: 80
-    targetPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-external
-spec:
-  type: LoadBalancer
-  selector:
-    app: frontend
-  ports:
-  - name: http
-    port: 80
+  - name: grpc
+    port: 8080
     targetPort: 8080

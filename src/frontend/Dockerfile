@@ -1,24 +1,19 @@
-FROM python:3.7-slim
-RUN apt-get update -qqy && \
-    apt-get -qqy install wget && \
-    rm -rf /var/lib/apt/lists/*
+FROM node:8-alpine as builder
 
-# Show Python logs as they occur
-ENV PYTHONUNBUFFERED=0
+RUN apk update && apk add --no-cache ca-certificates git && update-ca-certificates
 
-# Download the gRPC health probe
-RUN GRPC_HEALTH_PROBE_VERSION=v0.2.0 && \
-    wget -qO/bin/grpc_health_probe https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/${GRPC_HEALTH_PROBE_VERSION}/grpc_health_probe-linux-amd64 && \
-    chmod +x /bin/grpc_health_probe
+WORKDIR /usr/src/app
+COPY package.json yarn.lock ./
+RUN yarn install
+COPY tsconfig.json .
+COPY public public
+COPY src src
+RUN yarn build
 
-# Get packages
-WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+# Deploy static files using nginx
+FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /usr/src/app/build /var/www
 
-COPY . .
-
-ENV PORT 8080
 EXPOSE 8080
-
-CMD ["python", "/app/frontend.py"]
+CMD ["nginx", "-g", "daemon off;"]
