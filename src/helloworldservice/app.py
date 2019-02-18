@@ -20,7 +20,6 @@ logger = get_json_logger("helloworldservice")
 
 class HelloWorldService(demo_pb2_grpc.HelloWorldServiceServicer):
     def Greet(self, request, context):
-        logger.info("fuck")
         response = demo_pb2.GreetResponse()
         response.message = f"Hello, {request.name}"
         return response
