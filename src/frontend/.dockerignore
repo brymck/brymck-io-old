@@ -1,6 +1,7 @@
 .gitignore
 .dockerignore
 Dockerfile
+genproto.sh
 
 # dependencies
 /node_modules

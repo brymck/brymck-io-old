@@ -1,0 +1,56 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: frontend-ingress
+spec:
+  gateways:
+  - gateway
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri:
+        exact: /
+    - uri:
+        exact: /favicon.ico
+    - uri:
+        prefix: /static/
+    route:
+    - destination:
+        host: frontend
+        port:
+          number: 7200
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: api-ingress
+spec:
+  gateways:
+  - frontend-gateway
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri:
+        prefix: /api/
+    route:
+    - destination:
+        host: api
+        port:
+         number: 5050

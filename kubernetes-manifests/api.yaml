@@ -2,27 +2,32 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: helloworldservice
+  name: api
 spec:
   template:
     metadata:
       labels:
-        app: helloworldservice
+        app: api
     spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: helloworldservice
+          image: api
           ports:
           - containerPort: 8080
           readinessProbe:
-            periodSeconds: 5
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            tcpSocket:
+              port: 8080
           livenessProbe:
-            periodSeconds: 5
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            tcpSocket:
+              port: 8080
+          env:
+          - name: HELLO_WORLD_SERVICE_ADDR
+            value: "helloworldservice:8080"
           resources:
             requests:
               cpu: 100m
@@ -34,12 +39,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: helloworldservice
+  name: api
 spec:
   type: ClusterIP
   selector:
-    app: helloworldservice
+    app: api
   ports:
-  - name: grpc-web-port
-    port: 8080
+  - name: http
+    port: 5050
     targetPort: 8080

@@ -20,9 +20,13 @@ logger = get_json_logger("helloworldservice")
 
 class HelloWorldService(demo_pb2_grpc.HelloWorldServiceServicer):
     def Greet(self, request, context):
+        logger.info("fuck")
         response = demo_pb2.GreetResponse()
         response.message = f"Hello, {request.name}"
         return response
+
+    def Check(self, request, context):
+        return HealthCheckResponse(status=HealthCheckResponse.SERVING)
 
 
 def serve():
@@ -41,9 +45,7 @@ def serve():
 
     service = HelloWorldService()
     demo_pb2_grpc.add_HelloWorldServiceServicer_to_server(service, server)
-    health = HealthServicer()
-    health.set("plugin", HealthCheckResponse.ServingStatus.Value("SERVING"))
-    add_HealthServicer_to_server(health, server)
+    add_HealthServicer_to_server(service, server)
 
     logger.info(f"listening on port: {port}")
     server.add_insecure_port(f"[::]:{port}")

@@ -10,33 +10,27 @@ spec:
         app: frontend
     spec:
       containers:
-        - name: server
-          image: frontend
-          ports:
-            - containerPort: 8080
-          readinessProbe:
-            initialDelaySeconds: 10
-            httpGet:
-              path: "/_healthz"
-              port: 8080
-              httpHeaders:
-                - name: Cookie
-                  value: "session-id=x-readiness-probe"
-          livenessProbe:
-            initialDelaySeconds: 10
-            httpGet:
-              path: "/_healthz"
-              port: 8080
-              httpHeaders:
-                - name: Cookie
-                  value: "session-id=x-liveness-probe"
-          resources:
-            requests:
-              cpu: 100m
-              memory: 64Mi
-            limits:
-              cpu: 200m
-              memory: 128Mi
+      - name: server
+        image: frontend
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: 8080
+        livenessProbe:
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          tcpSocket:
+            port: 8080
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
 ---
 apiVersion: v1
 kind: Service
@@ -47,19 +41,6 @@ spec:
   selector:
     app: frontend
   ports:
-    - name: http
-      port: 80
-      targetPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-external
-spec:
-  type: LoadBalancer
-  selector:
-    app: frontend
-  ports:
-    - name: http
-      port: 80
-      targetPort: 8080
+  - name: http
+    port: 7200
+    targetPort: 8080
