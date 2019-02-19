@@ -28,7 +28,7 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     return (
-      <div>
+      <div className="app">
         <section className="header">
           <h1>BRYMCK.IO</h1>
         </section>
