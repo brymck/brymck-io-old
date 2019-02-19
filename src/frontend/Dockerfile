@@ -5,7 +5,7 @@ RUN apk update && apk add --no-cache ca-certificates git && update-ca-certificat
 WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 RUN yarn install
-COPY tsconfig.json .
+COPY .env tsconfig.json ./
 COPY public public
 COPY src src
 RUN yarn build

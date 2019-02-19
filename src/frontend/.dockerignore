@@ -2,6 +2,7 @@
 .dockerignore
 Dockerfile
 genproto.sh
+src/App.css
 
 # dependencies
 /node_modules

@@ -1,25 +1,57 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component, FormEvent} from 'react';
+import Button from '@material/react-button';
+import './App.scss';
+import TextField, {HelperText, Input} from "@material/react-text-field";
+import MaterialIcon from "@material/react-material-icon";
+import axios from "axios";
 
-class App extends Component {
+interface AppProps {}
+
+interface AppState {
+  value: string
+}
+
+class App extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+    this.state = {value: "world"};
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event: FormEvent<HTMLFormElement>) {
+    axios.get(`/api/${this.state.value}`)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+    event.preventDefault();
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
+      <div>
+        <section className="header">
+          <h1>BRYMCK.IO</h1>
+        </section>
+        <form onSubmit={this.handleSubmit}>
+          <TextField
+            label="Person"
+            helperText={<HelperText>Help me!</HelperText>}
+            onTrailingIconSelect={() => this.setState({value: ""})}
+            trailingIcon={<MaterialIcon role="button" icon="delete" />}
           >
-            Learn React!
-          </a>
-        </header>
+            <Input
+              value={this.state.value}
+              onChange={(e) => this.setState({value: e.currentTarget.value})}
+            />
+          </TextField>
+          <Button
+            raised
+            className="button-alternate"
+            onClick={() => console.log("clicked!")}
+          >
+            Click Me!
+          </Button>
+        </form>
       </div>
     );
   }
