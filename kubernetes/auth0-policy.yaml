@@ -1,0 +1,14 @@
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: auth0-policy
+spec:
+  targets:
+  - name: api
+  peers:
+  # - mtls: {}  # uncomment if you're using mutual TLS
+  origins:
+  - jwt:
+      issuer: "http://brymck.io/"
+      jwksUri: "http://brymck.io/.well-known/jwks.json"
+  principalBinding: USE_ORIGIN
