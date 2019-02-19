@@ -9,12 +9,14 @@ build:
     context: src/api
   - image: helloworldservice
     context: src/helloworldservice
+  - image: auth
+    context: src/auth
   tagPolicy:
     gitCommit: {}
 deploy:
   kubectl:
     manifests:
-    - ./kubernetes-manifests/**.yaml
+    - ./kubernetes/**.yaml
 profiles:
 - name: travis-ci
   build:
