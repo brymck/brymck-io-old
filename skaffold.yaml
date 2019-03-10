@@ -7,6 +7,10 @@ build:
     context: src/frontend
   - image: api
     context: src/api
+  - image: echoservice
+    context: src/echoservice
+  - image: auth
+    context: src/auth
   - image: helloworldservice
     context: src/helloworldservice
   - image: auth
@@ -16,7 +20,7 @@ build:
 deploy:
   kubectl:
     manifests:
-    - ./kubernetes/**.yaml
+    - ./kubernetes/**/*.yaml
 profiles:
 - name: travis-ci
   build:

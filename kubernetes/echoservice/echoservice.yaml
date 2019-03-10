@@ -1,0 +1,58 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: echoservice
+spec:
+  template:
+    metadata:
+      labels:
+        app: echoservice
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: echoservice
+          ports:
+            - containerPort: 5000
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            tcpSocket:
+              port: 5000
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            tcpSocket:
+              port: 5000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echoservice
+  labels:
+    app: echoservice
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: echoservice_mapping
+      prefix: /echo/
+      rewrite: /
+      service: echoservice:5000
+spec:
+  type: ClusterIP
+  selector:
+    app: echoservice
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000
