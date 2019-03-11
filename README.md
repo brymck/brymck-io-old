@@ -14,7 +14,7 @@ Create an `.env.local` file containing exports for the following environment var
 * `AUTH_FLASK_SECRET_KEY`
 * `AUTH0_CLIENT_ID`
 * `AUTH0_CLIENT_SECRET`
-* `KANIKO_SECRET`
+* `DEFAULT_REPO`
 
 Then run
 

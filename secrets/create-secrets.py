@@ -91,7 +91,7 @@ def main():
     source_dotenv()
     v1 = get_kubernetes_api()
     create_auth_secret(v1)
-    create_kaniko_secret(v1)
+    # create_kaniko_secret(v1)
 
 
 if __name__ == "__main__":

@@ -1,11 +1,13 @@
+SHELL := /bin/bash
+
 all: run
 
 dev:
-	skaffold dev --default-repo gcr.io/brymck-io
+	source .env && source .env.local && skaffold dev --default-repo $${DEFAULT_REPO}
 .PHONY: dev
 
 run:
-	skaffold run --default-repo gcr.io/brymck-io
+	source .env && source .env.local && skaffold run --default-repo $${DEFAULT_REPO}
 .PHONY: run
 
 secrets:
