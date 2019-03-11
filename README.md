@@ -16,8 +16,15 @@ Create an `.env.local` file containing exports for the following environment var
 * `AUTH0_CLIENT_SECRET`
 * `DEFAULT_REPO`
 
-Then run
+You need to run the following once:
 
 ```bash
-make dev
+make init
+```
+
+Going forward, you can then run one of
+
+```bash
+make dev  # deploy, watch and push changes, delete on quit
+make run  # deploy indefinitely
 ```
