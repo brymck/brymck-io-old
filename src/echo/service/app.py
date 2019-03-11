@@ -10,7 +10,7 @@ import your_service_pb2
 
 from logger import get_json_logger
 
-logger = get_json_logger("betterecho")
+logger = get_json_logger("echo")
 port = "9090"
 
 
@@ -32,7 +32,6 @@ def serve():
 
     logger.info(f"listening on port: {port}")
     server.add_insecure_port(f"[::]:{port}")
-    logger.info("Echo!!!!!!!!!!!!!!!!!!!!!!!")
     server.start()
     try:
         while True:

@@ -7,12 +7,10 @@ build:
     context: src/frontend
   - image: api
     context: src/api
-  - image: echoservice
-    context: src/echoservice
-  - image: betterecho
-    context: src/betterecho/service
-  - image: betterechoproxy
-    context: src/betterecho/proxy
+  - image: echo
+    context: src/echo/service
+  - image: echoproxy
+    context: src/echo/proxy
   - image: auth
     context: src/auth
   - image: helloworldservice

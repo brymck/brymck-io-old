@@ -1,4 +1,4 @@
-module github.com/brymck/brymck-io/src/betterecho/proxy
+module github.com/brymck/brymck-io/src/echo/proxy
 
 go 1.12
 

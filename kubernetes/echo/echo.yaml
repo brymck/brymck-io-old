@@ -2,29 +2,29 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: echoservice
+  name: echo
 spec:
   template:
     metadata:
       labels:
-        app: echoservice
+        app: echo
     spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: echoservice
+          image: echo
           ports:
-            - containerPort: 5000
+            - containerPort: 9090
           readinessProbe:
             initialDelaySeconds: 5
             periodSeconds: 10
-            tcpSocket:
-              port: 5000
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9090"]
           livenessProbe:
             initialDelaySeconds: 15
             periodSeconds: 20
-            tcpSocket:
-              port: 5000
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9090"]
           resources:
             requests:
               cpu: 10m
@@ -36,23 +36,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: echoservice
+  name: echo
   labels:
-    app: echoservice
-  annotations:
-    getambassador.io/config: |
-      ---
-      apiVersion: ambassador/v1
-      kind: Mapping
-      name: echoservice_mapping
-      prefix: /echo/
-      rewrite: /
-      service: echoservice:5000
+    app: echo
 spec:
   type: ClusterIP
   selector:
-    app: echoservice
+    app: echo
   ports:
-    - name: http
-      port: 5000
-      targetPort: 5000
+    - name: grpc
+      port: 9090
+      targetPort: 9090

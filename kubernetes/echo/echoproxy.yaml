@@ -2,17 +2,17 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: betterechoproxy
+  name: echoproxy
 spec:
   template:
     metadata:
       labels:
-        app: betterechoproxy
+        app: echoproxy
     spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: betterechoproxy
+          image: echoproxy
           ports:
             - containerPort: 8080
           readinessProbe:
@@ -36,23 +36,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: betterechoproxy
+  name: echoproxy
   labels:
-    app: betterechoproxy
+    app: echoproxy
   annotations:
     getambassador.io/config: |
       ---
       apiVersion: ambassador/v1
       kind: Mapping
-      name: betterechoproxy_mapping
-      prefix: /betterecho/
+      name: echoproxy_mapping
+      prefix: /echo/
       rewrite: /
       method: POST
-      service: betterechoproxy:8080
+      service: echoproxy:8080
 spec:
   type: ClusterIP
   selector:
-    app: betterechoproxy
+    app: echoproxy
   ports:
     - name: http
       port: 8080

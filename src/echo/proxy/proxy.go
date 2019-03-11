@@ -11,7 +11,7 @@ import (
 )
 
 const (
-  endpoint = "betterecho:9090"
+  endpoint = "echo:9090"
 )
 
 func init() {
@@ -28,7 +28,8 @@ func run() error {
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
-	if err := RegisterYourServiceHandlerFromEndpoint(ctx, mux, endpoint, opts); err != nil {
+	err := RegisterYourServiceHandlerFromEndpoint(ctx, mux, endpoint, opts)
+	if err != nil {
 		return err
 	}
 
