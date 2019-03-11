@@ -16,7 +16,7 @@ port = "9090"
 
 class EchoService(echo_pb2_grpc.EchoServiceServicer):
     def Echo(self, request, context):
-        return echo_pb2.StringMessage(value='Hello, {}'.format('world'))
+        return echo_pb2.StringMessage(value='Hello, {}!'.format('world'))
 
     def Check(self, request, context):
         return HealthCheckResponse(status=HealthCheckResponse.SERVING)

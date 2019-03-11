@@ -5,6 +5,8 @@ build:
   artifacts:
   - image: frontend
     context: src/frontend
+  - image: helloworldservice
+    context: src/helloworldservice
   - image: api
     context: src/api
   - image: echo
@@ -13,8 +15,6 @@ build:
     context: src/echo/proxy
   - image: auth
     context: src/auth
-  - image: helloworldservice
-    context: src/helloworldservice
   - image: auth
     context: src/auth
   tagPolicy:

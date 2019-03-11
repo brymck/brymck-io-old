@@ -21,6 +21,7 @@ istio: istio-${ISTIO_VERSION}
 	kubectl rollout status deployment -n istio-system prometheus
 	kubectl rollout status deployment -n istio-system servicegraph
 	kubectl label namespace default istio-injection=enabled
+	kubectl apply -f istio
 
 istio-${ISTIO_VERSION}:
 	curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -

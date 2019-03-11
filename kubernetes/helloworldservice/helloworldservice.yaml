@@ -45,5 +45,5 @@ spec:
     app: helloworldservice
   ports:
     - name: grpc-web-port
-      port: 9090
+      port: 1234
       targetPort: 9090

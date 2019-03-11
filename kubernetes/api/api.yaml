@@ -18,16 +18,18 @@ spec:
           readinessProbe:
             initialDelaySeconds: 5
             periodSeconds: 10
-            tcpSocket:
+            httpGet:
+              path: "/_healthz"
               port: 8080
           livenessProbe:
             initialDelaySeconds: 15
             periodSeconds: 20
-            tcpSocket:
+            httpGet:
+              path: "/_healthz"
               port: 8080
           env:
             - name: HELLO_WORLD_SERVICE_ADDR
-              value: "helloworldservice:9090"
+              value: "helloworldservice:1234"
           resources:
             requests:
               cpu: 10m
@@ -46,5 +48,5 @@ spec:
     app: api
   ports:
     - name: http
-      port: 8080
+      port: 2112
       targetPort: 8080
