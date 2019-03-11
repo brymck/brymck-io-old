@@ -11,7 +11,7 @@ import (
 )
 
 const (
-  endpoint = "echo:9090"
+  endpoint = "echo:4000"
 )
 
 func init() {
@@ -28,8 +28,9 @@ func run() error {
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
-	err := RegisterYourServiceHandlerFromEndpoint(ctx, mux, endpoint, opts)
+	err := RegisterEchoServiceHandlerFromEndpoint(ctx, mux, endpoint, opts)
 	if err != nil {
+	  glog.Error(err)
 		return err
 	}
 

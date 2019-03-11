@@ -7,8 +7,20 @@ init: istio secrets
 
 istio: istio-${ISTIO_VERSION}
 	cd istio-${ISTIO_VERSION} && kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
-	sleep 10s
 	cd istio-${ISTIO_VERSION} && kubectl apply -f install/kubernetes/istio-demo.yaml
+	kubectl rollout status deployment -n istio-system grafana
+	kubectl rollout status deployment -n istio-system istio-citadel
+	kubectl rollout status deployment -n istio-system istio-egressgateway
+	kubectl rollout status deployment -n istio-system istio-galley
+	kubectl rollout status deployment -n istio-system istio-ingressgateway
+	kubectl rollout status deployment -n istio-system istio-pilot
+	kubectl rollout status deployment -n istio-system istio-policy
+	kubectl rollout status deployment -n istio-system istio-sidecar-injector
+	kubectl rollout status deployment -n istio-system istio-telemetry
+	kubectl rollout status deployment -n istio-system istio-tracing
+	kubectl rollout status deployment -n istio-system prometheus
+	kubectl rollout status deployment -n istio-system servicegraph
+	kubectl label namespace default istio-injection=enabled
 
 istio-${ISTIO_VERSION}:
 	curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
@@ -23,12 +35,9 @@ dev:
 run:
 	source .env && source .env.local && skaffold run --default-repo $${DEFAULT_REPO}
 
-ambassador:
-	kubectl apply -f blah/ambassador/ambassador-rbac.yaml
-	kubectl rollout status deployment ambassador
-
 dashboard:
-	# kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
+	kubectl rollout status deployment -n kube-system kubernetes-dashboard
 	kubectl proxy
 
 .PHONY: \

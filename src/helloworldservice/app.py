@@ -37,7 +37,7 @@ def serve():
     except:
         tracer_interceptor = OpenCensusServerInterceptor()
 
-    port = os.environ.get("PORT", "8080")
+    port = os.environ.get("PORT", "9090")
 
     server = grpc.server(ThreadPoolExecutor(max_workers=3))
 

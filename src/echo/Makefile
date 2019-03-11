@@ -1,4 +1,4 @@
-all: grpc grpc-gateway grpc-python openapi proxy
+proto: proto-server proto-proxy proto-openapi
 
 init:
 	go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
@@ -6,36 +6,32 @@ init:
 	go get -u github.com/golang/protobuf/protoc-gen-go
 	pip install grpcio-tools
 
-grpc:
-	protoc -I/usr/local/include -I. \
-	    -I${GOPATH}/src \
-	    -I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-	    --go_out=plugins=grpc:proxy \
-	    your_service.proto
-
-grpc-python:
+proto-server:
 	python -m grpc_tools.protoc -I/usr/local/include -I. \
         -I${GOPATH}/src \
         -I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-        --python_out=. \
-        --grpc_python_out=. \
-        your_service.proto
+        --python_out=service \
+        --grpc_python_out=service \
+        echo.proto
 
-grpc-gateway:
+proto-proxy:
 	protoc -I/usr/local/include -I. \
 		-I${GOPATH}/src \
 	    -I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	    --go_out=plugins=grpc:proxy \
 	    --grpc-gateway_out=logtostderr=true:proxy \
-	    your_service.proto
+	    echo.proto
 
-openapi:
+proto-openapi:
 	protoc -I/usr/local/include -I. \
 	    -I${GOPATH}/src \
 	    -I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	    --swagger_out=logtostderr=true:openapi \
-	    your_service.proto
+	    echo.proto
 
-proxy:
-	go build proxy/...
-
-.PHONY: all init grpc grpc-gateway grpc-python openapi proxy
+.PHONY: \
+	all \
+	init \
+	proto-server \
+	proto-proxy \
+	proto-openapi

@@ -2,7 +2,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: auth
+  name: echoproxy
 spec:
   gateways:
     - gateway
@@ -11,13 +11,11 @@ spec:
   http:
     - match:
         - uri:
-            exact: /login
-        - uri:
-            exact: /callback
-        - uri:
-            exact: /logout
+            prefix: /echo/
+      rewrite:
+        uri: /
       route:
         - destination:
-            host: auth
+            host: echoproxy
             port:
-              number: 8080
+              number: 4001

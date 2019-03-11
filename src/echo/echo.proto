@@ -7,7 +7,7 @@ message StringMessage {
   string value = 1;
 }
 
-service YourService {
+service EchoService {
   rpc Echo(StringMessage) returns (StringMessage) {
     option (google.api.http) = {
       post: "/v1/example/echo"

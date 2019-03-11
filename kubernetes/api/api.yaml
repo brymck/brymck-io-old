@@ -27,7 +27,7 @@ spec:
               port: 8080
           env:
             - name: HELLO_WORLD_SERVICE_ADDR
-              value: "helloworldservice:8080"
+              value: "helloworldservice:9090"
           resources:
             requests:
               cpu: 10m
@@ -46,5 +46,5 @@ spec:
     app: api
   ports:
     - name: http
-      port: 5050
+      port: 8080
       targetPort: 8080

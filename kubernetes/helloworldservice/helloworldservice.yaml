@@ -14,17 +14,17 @@ spec:
         - name: server
           image: helloworldservice
           ports:
-          - containerPort: 8080
+            - containerPort: 9090
           readinessProbe:
             periodSeconds: 5
             initialDelaySeconds: 10
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+              command: ["/bin/grpc_health_probe", "-addr=:9090"]
           livenessProbe:
             periodSeconds: 15
             initialDelaySeconds: 20
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+              command: ["/bin/grpc_health_probe", "-addr=:9090"]
           resources:
             requests:
               cpu: 10m
@@ -44,6 +44,6 @@ spec:
   selector:
     app: helloworldservice
   ports:
-  - name: grpc-web-port
-    port: 8080
-    targetPort: 8080
+    - name: grpc-web-port
+      port: 9090
+      targetPort: 9090

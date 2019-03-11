@@ -16,4 +16,4 @@ spec:
         - destination:
             host: api
             port:
-              number: 5050
+              number: 8080

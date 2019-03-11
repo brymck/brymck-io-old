@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='main',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x12your_service.proto\x12\x04main\x1a\x1cgoogle/api/annotations.proto\"\x1e\n\rStringMessage\x12\r\n\x05value\x18\x01 \x01(\t2\\\n\x0bYourService\x12M\n\x04\x45\x63ho\x12\x13.main.StringMessage\x1a\x13.main.StringMessage\"\x1b\x82\xd3\xe4\x93\x02\x15\"\x10/v1/example/echo:\x01*b\x06proto3')
+  serialized_pb=_b('\n\necho.proto\x12\x04main\x1a\x1cgoogle/api/annotations.proto\"\x1e\n\rStringMessage\x12\r\n\x05value\x18\x01 \x01(\t2\\\n\x0b\x45\x63hoService\x12M\n\x04\x45\x63ho\x12\x13.main.StringMessage\x1a\x13.main.StringMessage\"\x1b\x82\xd3\xe4\x93\x02\x15\"\x10/v1/example/echo:\x01*b\x06proto3')
   ,
   dependencies=[google_dot_api_dot_annotations__pb2.DESCRIPTOR,])
 
@@ -53,8 +53,8 @@ _STRINGMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=58,
-  serialized_end=88,
+  serialized_start=50,
+  serialized_end=80,
 )
 
 DESCRIPTOR.message_types_by_name['StringMessage'] = _STRINGMESSAGE
@@ -62,25 +62,25 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 StringMessage = _reflection.GeneratedProtocolMessageType('StringMessage', (_message.Message,), dict(
   DESCRIPTOR = _STRINGMESSAGE,
-  __module__ = 'your_service_pb2'
+  __module__ = 'echo_pb2'
   # @@protoc_insertion_point(class_scope:main.StringMessage)
   ))
 _sym_db.RegisterMessage(StringMessage)
 
 
 
-_YOURSERVICE = _descriptor.ServiceDescriptor(
-  name='YourService',
-  full_name='main.YourService',
+_ECHOSERVICE = _descriptor.ServiceDescriptor(
+  name='EchoService',
+  full_name='main.EchoService',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=90,
-  serialized_end=182,
+  serialized_start=82,
+  serialized_end=174,
   methods=[
   _descriptor.MethodDescriptor(
     name='Echo',
-    full_name='main.YourService.Echo',
+    full_name='main.EchoService.Echo',
     index=0,
     containing_service=None,
     input_type=_STRINGMESSAGE,
@@ -88,8 +88,8 @@ _YOURSERVICE = _descriptor.ServiceDescriptor(
     serialized_options=_b('\202\323\344\223\002\025\"\020/v1/example/echo:\001*'),
   ),
 ])
-_sym_db.RegisterServiceDescriptor(_YOURSERVICE)
+_sym_db.RegisterServiceDescriptor(_ECHOSERVICE)
 
-DESCRIPTOR.services_by_name['YourService'] = _YOURSERVICE
+DESCRIPTOR.services_by_name['EchoService'] = _ECHOSERVICE
 
 # @@protoc_insertion_point(module_scope)

@@ -29,5 +29,5 @@ USER appuser
 # Expose container
 WORKDIR /bin
 COPY --from=builder /bin/server .
-EXPOSE 8080
+EXPOSE 9090
 ENTRYPOINT ["/bin/server"]

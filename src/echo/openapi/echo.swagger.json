@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "your_service.proto",
+    "title": "echo.proto",
     "version": "version not set"
   },
   "schemes": [
@@ -37,7 +37,7 @@
           }
         ],
         "tags": [
-          "YourService"
+          "EchoService"
         ]
       }
     }
