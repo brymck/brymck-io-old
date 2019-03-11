@@ -26,3 +26,11 @@ profiles:
   build:
     local:
       push: false
+- name: kaniko
+  build:
+    kaniko:
+      buildContext:
+        gcsBucket: brymck-io-skaffold-kaniko
+      pullSecretName: kaniko-secret
+      namespace: default
+      cache: {}
