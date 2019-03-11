@@ -1,0 +1,49 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: betterecho
+spec:
+  template:
+    metadata:
+      labels:
+        app: betterecho
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: betterecho
+          ports:
+            - containerPort: 9090
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9090"]
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9090"]
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: betterecho
+  labels:
+    app: betterecho
+spec:
+  type: ClusterIP
+  selector:
+    app: betterecho
+  ports:
+    - name: grpc
+      port: 9090
+      targetPort: 9090

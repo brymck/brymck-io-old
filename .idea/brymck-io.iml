@@ -13,6 +13,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/api" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/auth" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/echoservice" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/betterecho/proxy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/betterecho/service" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

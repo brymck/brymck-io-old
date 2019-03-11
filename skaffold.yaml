@@ -9,6 +9,10 @@ build:
     context: src/api
   - image: echoservice
     context: src/echoservice
+  - image: betterecho
+    context: src/betterecho/service
+  - image: betterechoproxy
+    context: src/betterecho/proxy
   - image: auth
     context: src/auth
   - image: helloworldservice

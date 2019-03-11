@@ -3,7 +3,6 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 import grpc
-from grpc_health.v1.health import HealthServicer
 from opencensus.trace.exporters.stackdriver_exporter import StackdriverExporter
 from opencensus.trace.ext.grpc.server_interceptor import OpenCensusServerInterceptor
 from opencensus.trace.samplers.always_on import AlwaysOnSampler

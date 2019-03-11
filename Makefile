@@ -23,10 +23,19 @@ dev:
 run:
 	source .env && source .env.local && skaffold run --default-repo $${DEFAULT_REPO}
 
+ambassador:
+	kubectl apply -f blah/ambassador/ambassador-rbac.yaml
+	kubectl rollout status deployment ambassador
+
+dashboard:
+	# kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
+	kubectl proxy
+
 .PHONY: \
 	all \
 	init \
 	istio \
 	secrets \
 	dev \
-	run
+	run \
+	dashboard

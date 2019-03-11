@@ -1,0 +1,59 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: betterechoproxy
+spec:
+  template:
+    metadata:
+      labels:
+        app: betterechoproxy
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: betterechoproxy
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            tcpSocket:
+              port: 8080
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            tcpSocket:
+              port: 8080
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: betterechoproxy
+  labels:
+    app: betterechoproxy
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: betterechoproxy_mapping
+      prefix: /betterecho/
+      rewrite: /
+      method: POST
+      service: betterechoproxy:8080
+spec:
+  type: ClusterIP
+  selector:
+    app: betterechoproxy
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
