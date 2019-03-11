@@ -3,6 +3,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: echoproxy
+  namespace: istio-system
 spec:
   gateways:
     - gateway
@@ -16,6 +17,6 @@ spec:
         uri: /
       route:
         - destination:
-            host: echoproxy
+            host: echoproxy.default.svc.cluster.local
             port:
               number: 4001

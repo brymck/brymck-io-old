@@ -3,6 +3,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: api
+  namespace: istio-system
 spec:
   gateways:
     - gateway
@@ -14,6 +15,6 @@ spec:
             prefix: /api/
       route:
         - destination:
-            host: api
+            host: api.default.svc.cluster.local
             port:
               number: 2112
