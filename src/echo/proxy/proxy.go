@@ -11,7 +11,7 @@ import (
 )
 
 const (
-  endpoint = "echo:4000"
+  endpoint = ":9090"
 )
 
 func init() {

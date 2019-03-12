@@ -1,0 +1,83 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: echo
+spec:
+  template:
+    metadata:
+      labels:
+        app: echo
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: echo
+          ports:
+            - containerPort: 9090
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9090"]
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9090"]
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          env:
+            - name: POSTGRES_DB_HOST
+              value: 127.0.0.1:5432
+            - name: POSTGRES_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: username
+            - name: POSTGRES_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: password
+        - name: json-to-grpc-proxy
+          image: echoproxy
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            tcpSocket:
+              port: 8080
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            tcpSocket:
+              port: 8080
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          command: ["/cloud_sql_proxy",
+                    "-instances=brymck-io:asia-northeast1:brymck-io-psql=tcp:5432",
+                    "-credential_file=/secrets/cloudsql/credentials.json"]
+          securityContext:
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials

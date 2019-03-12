@@ -1,13 +1,14 @@
 from concurrent import futures
+import os
 import time
 
 import grpc
-
 from grpc_health.v1.health_pb2 import HealthCheckResponse
 from grpc_health.v1.health_pb2_grpc import add_HealthServicer_to_server
+import psycopg2
+
 import echo_pb2_grpc
 import echo_pb2
-
 from logger import get_json_logger
 
 logger = get_json_logger("echo")
@@ -15,8 +16,24 @@ port = "9090"
 
 
 class EchoService(echo_pb2_grpc.EchoServiceServicer):
+    def __init__(self):
+        psql_host, psql_port = os.environ['POSTGRES_DB_HOST'].split(':')
+        logger.info(f"psql_host: {psql_host}, psql_port: {psql_port}")
+        self._conn = psycopg2.connect(
+            user=os.environ['POSTGRES_DB_USER'],
+            password=os.environ['POSTGRES_DB_PASSWORD'],
+            host=psql_host,
+            port=psql_port,
+        )
+        logger.info("Done creating connection")
+
     def Echo(self, request, context):
-        return echo_pb2.StringMessage(value='Hello, {}!'.format('world'))
+        cur = self._conn.cursor()
+        cur.execute('select name from names')
+        name, = cur.fetchone()
+        self._conn.commit()
+        cur.close()
+        return echo_pb2.StringMessage(value=f"Hello, {name}!")
 
     def Check(self, request, context):
         return HealthCheckResponse(status=HealthCheckResponse.SERVING)
