@@ -1,6 +1,8 @@
 brymck-io
 =========
 
+[![Build Status](https://travis-ci.com/brymck/brymck-io.svg?branch=master)](https://travis-ci.com/brymck/brymck-io)
+
 Development
 -----------
 
