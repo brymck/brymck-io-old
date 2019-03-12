@@ -3,12 +3,12 @@ from functools import lru_cache
 import json
 from logging import INFO, basicConfig, getLogger
 import os
+from pathlib import Path
 from typing import Dict, Set
 
 from dotenv import load_dotenv
-from kubernetes import config
 from kubernetes.client import CoreV1Api, V1Secret, V1ObjectMeta
-from pathlib import Path
+from kubernetes.config import load_kube_config
 
 basicConfig(level=INFO, format='%(message)s')
 logger = getLogger(__name__)
@@ -54,7 +54,7 @@ def source_dotenv():
 
 def get_kubernetes_api() -> CoreV1Api:
     logger.info('Loading Kubernetes configuration...')
-    config.load_kube_config()
+    load_kube_config()
     return CoreV1Api()
 
 
