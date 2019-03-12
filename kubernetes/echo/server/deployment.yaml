@@ -1,28 +1,27 @@
----
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: helloworldservice
+  name: echo
 spec:
   template:
     metadata:
       labels:
-        app: helloworldservice
+        app: echo
     spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: helloworldservice
+          image: echo
           ports:
             - containerPort: 9090
           readinessProbe:
-            periodSeconds: 5
-            initialDelaySeconds: 10
+            initialDelaySeconds: 5
+            periodSeconds: 10
             exec:
               command: ["/bin/grpc_health_probe", "-addr=:9090"]
           livenessProbe:
-            periodSeconds: 15
-            initialDelaySeconds: 20
+            initialDelaySeconds: 15
+            periodSeconds: 20
             exec:
               command: ["/bin/grpc_health_probe", "-addr=:9090"]
           resources:
@@ -32,18 +31,3 @@ spec:
             limits:
               cpu: 200m
               memory: 128Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: helloworldservice
-  labels:
-    app: helloworldservice
-spec:
-  type: ClusterIP
-  selector:
-    app: helloworldservice
-  ports:
-    - name: grpc-web-port
-      port: 1234
-      targetPort: 9090

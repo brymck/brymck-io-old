@@ -1,35 +1,29 @@
----
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: api
+  name: auth
 spec:
   template:
     metadata:
       labels:
-        app: api
+        app: auth
     spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: api
+          image: auth
           ports:
             - containerPort: 8080
           readinessProbe:
             initialDelaySeconds: 5
             periodSeconds: 10
-            httpGet:
-              path: "/_healthz"
+            tcpSocket:
               port: 8080
           livenessProbe:
             initialDelaySeconds: 15
             periodSeconds: 20
-            httpGet:
-              path: "/_healthz"
+            tcpSocket:
               port: 8080
-          env:
-            - name: HELLO_WORLD_SERVICE_ADDR
-              value: "helloworldservice:1234"
           resources:
             requests:
               cpu: 10m
@@ -37,16 +31,19 @@ spec:
             limits:
               cpu: 200m
               memory: 128Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: api
-spec:
-  type: ClusterIP
-  selector:
-    app: api
-  ports:
-    - name: http
-      port: 2112
-      targetPort: 8080
+          env:
+            - name: AUTH_FLASK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: auth_flask_secret_key
+            - name: AUTH0_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: auth0_client_id
+            - name: AUTH0_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: auth0_client_secret
