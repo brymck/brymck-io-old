@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: whitelist-egress-googleapis
+  name: egress-googleapis
   namespace: istio-system
 spec:
   hosts:
@@ -17,3 +17,4 @@ spec:
     - number: 443
       protocol: HTTPS
       name: https
+  location: MESH_EXTERNAL

@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: egress-cloudsql
+  namespace: istio-system
+spec:
+  hosts:
+    - 10.75.16.3
+    - 35.194.118.209
+  addresses:
+    - 10.75.16.3/32
+    - 35.194.118.209/32
+  ports:
+    - name: tcp
+      number: 3307
+      protocol: tcp
+  location: MESH_EXTERNAL
