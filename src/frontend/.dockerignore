@@ -1,7 +1,6 @@
-.gitignore
 .dockerignore
+.gitignore
 Dockerfile
-genproto.sh
 src/App.css
 
 # dependencies

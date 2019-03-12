@@ -1,9 +1,8 @@
 # Non-gitignore excludes
-.git/
 .dockerignore
 .gitignore
 Dockerfile
-genproto.sh
+requirements.in
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

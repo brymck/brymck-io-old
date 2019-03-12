@@ -1,5 +1,4 @@
 # Non-gitignore excludes
-.git/
 .dockerignore
 .gitignore
 Dockerfile
