@@ -9,7 +9,7 @@ build:
   - image: api
     context: src/api
   - image: echo
-    context: src/echo/service
+    context: src/echo/server
   - image: echoproxy
     context: src/echo/proxy
   - image: auth

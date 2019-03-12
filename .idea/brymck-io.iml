@@ -13,7 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/api" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/auth" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/echo/proxy" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/echo/service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/echo/server" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/kubernetes" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/secrets" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/istio-1.0.5" />
