@@ -3,10 +3,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: auth
-  namespace: istio-system
 spec:
   gateways:
-    - gateway
+    - gateway.istio-system.svc.cluster.local
   hosts:
     - "*"
   http:
@@ -19,6 +18,6 @@ spec:
             exact: /logout
       route:
         - destination:
-            host: auth.default.svc.cluster.local
+            host: auth
             port:
               number: 8080
