@@ -22,7 +22,7 @@ build:
 deploy:
   kubectl:
     manifests:
-    - ./kubernetes/**/*.yaml
+    - ./kubernetes/default/**/*.yaml
 profiles:
 - name: travis-ci
   build:
