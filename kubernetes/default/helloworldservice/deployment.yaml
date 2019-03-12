@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: helloworldservice
 spec:
+  selector:
+    matchLabels:
+      app: helloworldservice
   template:
     metadata:
       labels:
