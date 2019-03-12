@@ -4,4 +4,3 @@
 .idea/dataSources.local.xml
 istio-*/
 .env.local
-src/echo/__pycache__/
