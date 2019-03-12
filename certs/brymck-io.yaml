@@ -2,17 +2,20 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
-  name: istio-gateway
+  name: brymck-io
   namespace: istio-system
 spec:
+  # The secret must be called istio-ingressgateway-certs in the istio-system namespace, or it will not be mounted and
+  # available to the Istio gateway.
   secretName: istio-ingressgateway-certs
   issuerRef:
     name: letsencrypt-prod
-  commonName: "*.brymck.io"
+  commonName: brymck.io
+  dnsNames:
+    - brymck.io
   acme:
     config:
       - dns01:
           provider: cloud-dns
         domains:
-          - "*.brymck.io"
-          - "brymck.io"
+          - brymck.io

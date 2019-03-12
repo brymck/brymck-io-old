@@ -10,6 +10,7 @@ spec:
     email: bryan.mckelvey@gmail.com
     privateKeySecretRef:
       name: letsencrypt-prod
+    http01: {}
     dns01:
       providers:
         - name: cloud-dns
