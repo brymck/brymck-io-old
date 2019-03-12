@@ -1,5 +1,6 @@
 .idea/dataSources/
 .idea/**/workspace.xml
+.idea/compiler.xml
 .idea/dataSources.xml
 .idea/dataSources.local.xml
 istio-*/
