@@ -1,10 +1,9 @@
----
 steps:
-- id: Deploy application to cluster
-  name: gcr.io/k8s-skaffold/skaffold:v0.24.0
-  entrypoint: bash
-  args:
-  - -c
-  - >
-    gcloud container clusters get-credentials --zone=$_ZONE $_CLUSTER;
-    skaffold run -f=skaffold.yaml --default-repo=gcr.io/$PROJECT_ID;
+  - id: Deploy application to cluster
+    name: gcr.io/k8s-skaffold/skaffold:v0.24.0
+    entrypoint: bash
+    args:
+      - -c
+      - >
+        gcloud container clusters get-credentials --zone=$_ZONE $_CLUSTER;
+        skaffold run -f=skaffold.yaml --default-repo=gcr.io/$PROJECT_ID;
