@@ -1,3 +1,5 @@
+.idea/dataSources/
 .idea/**/workspace.xml
+.idea/dataSources.xml
 istio-*/
 .env.local
