@@ -1,9 +1,12 @@
 # Stuff left out of .gitignore
-vendor/
 .dockerignore
 .gitignore
 Dockerfile
 genproto.sh
+
+# Build and vendored dependencies
+bazel-*
+vendor/
 
 # Binaries for programs and plugins
 *.exe

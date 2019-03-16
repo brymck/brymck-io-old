@@ -1,3 +1,5 @@
+# Build and vendored dependencies
+bazel-*
 vendor/
 
 # Binaries for programs and plugins
