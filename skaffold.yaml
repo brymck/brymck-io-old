@@ -2,36 +2,35 @@ apiVersion: skaffold/v1beta6
 kind: Config
 build:
   artifacts:
-  - image: frontend
-    context: src/frontend
-  - image: helloworldservice
-    context: src/helloworldservice
-  - image: api
-    context: src/api
-  - image: echo
-    context: src/echo/server
-  - image: echoproxy
-    context: src/echo/proxy
-  - image: auth
-    context: src/auth
-  - image: auth
-    context: src/auth
+    - image: frontend
+      context: src/frontend
+    - image: helloworldservice
+      context: src/helloworldservice
+    - image: api
+      context: src/api
+    - image: echo
+      context: src/echo/server
+    - image: echoproxy
+      context: src/echo/proxy
+    - image: auth
+      context: src/auth
+    - image: auth
+      context: src/auth
   tagPolicy:
     gitCommit: {}
 deploy:
   kubectl:
     manifests:
-    - ./kubernetes/default/**/*.yaml
+      - ./kubernetes/default/**/*.yaml
 profiles:
-- name: travis-ci
-  build:
-    local:
-      push: false
-- name: kaniko
-  build:
-    kaniko:
-      buildContext:
-        gcsBucket: brymck-io-skaffold-kaniko
-      pullSecretName: kaniko-secret
-      namespace: default
-      cache: {}
+  - name: travis-ci
+    build:
+      local:
+        push: false
+  - name: kaniko
+    build:
+      kaniko:
+        buildContext:
+          gcsBucket: brymck-io-skaffold-kaniko
+        pullSecretName: kaniko-secret
+        cache: {}
